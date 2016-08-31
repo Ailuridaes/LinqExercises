@@ -40,13 +40,15 @@ namespace LinqExercises.Test.Controllers
         public void SearchSuppliersTest()
         {
             // ACT
-            IHttpActionResult actionResult = _suppliersController.SearchSuppliers("rue");
-            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<Supplier>>;
+            //IHttpActionResult actionResult = _suppliersController.SearchSuppliers("rue");
+            //var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<Supplier>>;
+            dynamic contentResult = _suppliersController.SearchSuppliers("rue");
+            var list = ((IEnumerable<dynamic>)contentResult.Content).ToList();
 
             // ASSERT
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(contentResult.Content.Count(), 5);
+            Assert.AreEqual(list.Count, 5);
         }
     }
 }
