@@ -19,14 +19,15 @@ namespace LinqExercises.Controllers
         [HttpGet, Route("api/employees"), ResponseType(typeof(IQueryable<Employee>))]
         public IHttpActionResult GetEmployees()
         {
-            throw new NotImplementedException("Write a query to return all employees");
+            return Ok(_db.Employees);
         }
 
         // GET: api/employees/title/Sales Manager
         [HttpGet, Route("api/employees/title/{title}"), ResponseType(typeof(IQueryable<Employee>))]
         public IHttpActionResult GetEmployeesByTitle(string title)
         {
-            throw new NotImplementedException("Write a query to return all employees with the given Title");
+            var resultsSet = _db.Employees.Where(e => e.Title.Equals(title));
+            return Ok(resultsSet);
         }
 
         protected override void Dispose(bool disposing)

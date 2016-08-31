@@ -3,6 +3,7 @@ using LinqExercises.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace LinqExercises.Test.Controllers
         {
             // ACT
             IHttpActionResult actionResult = _employeesController.GetEmployees();
-            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<Employee>>;
+            var contentResult = actionResult as OkNegotiatedContentResult<DbSet<Employee>>;
 
             // ASSERT
             Assert.IsNotNull(contentResult);

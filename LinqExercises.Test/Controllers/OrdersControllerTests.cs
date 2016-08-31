@@ -37,16 +37,33 @@ namespace LinqExercises.Test.Controllers
         }
 
         [TestMethod]
-        public void PurchaseReportTest()
+        public void GetSmallOrdersBetweenDateTest()
         {
             // ACT
-            IHttpActionResult actionResult = _ordersController.PurchaseReport();
-            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<object>>;
+            IHttpActionResult actionResult = _ordersController.GetSmallOrdersBetween(DateTime.Parse("01/01/1997"), DateTime.Parse("12/31/1997"));
+            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<Order>>;
 
             // ASSERT
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(contentResult.Content.Count(), 77);
+            Assert.AreEqual(contentResult.Content.Count(), 307);
+        }
+
+        [TestMethod]
+        public void PurchaseReportTest()
+        {
+            // ACT
+            dynamic contentResult = _ordersController.PurchaseReport();
+            var list = ((IEnumerable<dynamic>)contentResult.Content).ToList();
+
+            // ACT
+            //IHttpActionResult actionResult = _ordersController.PurchaseReport();
+            //var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<object>>;
+
+            // ASSERT
+            Assert.IsNotNull(contentResult);
+            Assert.IsNotNull(contentResult.Content);
+            Assert.AreEqual(list.Count, 77);
         }
     }
 }
