@@ -24,7 +24,7 @@ namespace LinqExercises.Test.Controllers
         }
 
         [TestMethod]
-        public void GetDiscontinuedProductsTest()
+        public void GetDiscontinuedProductsCountTest()
         {
             // ACT
             IHttpActionResult actionResult = _productsController.GetDiscontinuedCount();
@@ -34,6 +34,19 @@ namespace LinqExercises.Test.Controllers
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual(contentResult.Content, 8);
+        }
+
+        [TestMethod]
+        public void GetDiscontinuedProductsTest()
+        {
+            // ACT
+            IHttpActionResult actionResult = _productsController.GetDiscontinued();
+            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<Product>>;
+
+            // ASSERT
+            Assert.IsNotNull(contentResult);
+            Assert.IsNotNull(contentResult.Content);
+            Assert.AreEqual(contentResult.Content.Count(), 8);
         }
 
         [TestMethod]
@@ -53,13 +66,13 @@ namespace LinqExercises.Test.Controllers
         public void GetStockReportTest()
         {
             // ACT
-            IHttpActionResult actionResult = _productsController.GetStockReport();
-            var contentResult = actionResult as OkNegotiatedContentResult<IQueryable<object>>;
-
+            dynamic contentResult = _productsController.GetStockReport();
+            var list = ((IEnumerable<dynamic>)contentResult.Content).ToList();            
+            
             // ASSERT
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(contentResult.Content.Count(), 12);
+            Assert.AreEqual(list.Count, 12);
         }
     }
 }

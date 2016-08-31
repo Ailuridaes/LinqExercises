@@ -39,42 +39,13 @@ namespace LinqExercises.Controllers
             // query to return an array of anonymous objects that have two properties. A Product property and the quantity ordered for that product labelled as 'QuantityPurchased' ordered by QuantityPurchased in descending order.
 
             // To sum historical quantity purchased over all orders
-            // Saving old Join and GroupJoin methods for posterity :)
-            //var resultSet = _db.Products
-            //    .Join(_db.Order_Details,
-            //        p => p.ProductID,
-            //        o => o.ProductID,
-            //        (p, o) => new { p, o })
-            //    .GroupBy(x => x.p)
-            //    .Select(
-            //        x => new
-            //        {
-            //            Product = x.Key,
-            //            QuantityPurchased = x.Sum(y => y.o.Quantity)
-            //        }
-            //    ).OrderByDescending(x => x.QuantityPurchased);
-
-            //var resultSet = _db.Products
-            //    .GroupJoin(_db.Order_Details,
-            //        p => p.ProductID,
-            //        o => o.ProductID,
-            //        (p, o) => new { p, o })
-            //    .Select(
-            //        x => new
-            //        {
-            //            Product = x.p,
-            //            QuantityPurchased = x.o.Sum(y => y.Quantity)
-            //        }
-            //    ).OrderByDescending(x => x.QuantityPurchased);
-
-
             var resultSet = _db.Products.Select(
-                    x => new
+                    p => new
                     {
-                        Product = x,
-                        QuantityPurchased = x.Order_Details.Sum(y => y.Quantity)
+                        Product = p,
+                        QuantityPurchased = p.Order_Details.Sum(y => y.Quantity)
                     }
-                ).OrderByDescending(x => x.QuantityPurchased);
+                ).OrderByDescending(p => p.QuantityPurchased);
 
             return Ok(resultSet);
 
